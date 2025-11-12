@@ -42,7 +42,7 @@ cat private.pem
 cat public.pem
 ```
 
-### Tests
+### Test
 
 On the first terminal, launch the test server
 
@@ -56,4 +56,4 @@ On the second terminal, launch the phishing web page
 chromium-browser index.html &
 ```
 
-Insert credentials and check the output on test server
+Insert credentials and check the output of the test server
