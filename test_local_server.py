@@ -31,7 +31,8 @@ class Handler(BaseHTTPRequestHandler):
 
             ciphertext = base64.b64decode(ciphertext_b64)
 
-            with open("./example.private.pem", "rb") as priv_file:
+            # openssl genrsa -out private.pem 2048
+            with open("./private.pem", "rb") as priv_file:
                 private_key = RSA.import_key(priv_file.read())
             cipher_rsa = PKCS1_v1_5.new(private_key)
 
