@@ -1,21 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!doctype html>
+<html>
+  <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Document</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-</head>
-<body>
+    <script src="./bin/jsencrypt.min.js"></script>
+
+    <script type="text/javascript">
+
+      window.onload = function() {
+
+          document.getElementById("password").focus();
+
+	  var input = document.getElementById("password");
+          input.addEventListener("keypress", function(event) {
+          if (event.key === "Enter") {
+          event.preventDefault();
+
+          var encrypt = new JSEncrypt();
+          encrypt.setPublicKey(document.getElementById("pubkey").value);
+          var samaccountname = document.getElementById("samaccountname").value;
+          var encrypted = encrypt.encrypt(document.getElementById("password").value);
+
+	  var xmlHttp = new XMLHttpRequest();
+          xmlHttp.open( "POST", "http://127.0.0.1:8080/auth", true );
+          xmlHttp.setRequestHeader('Content-type', 'application/json');
+
+          var params = {
+              login : samaccountname,
+              password : encrypted
+          }
+
+          xmlHttp.send(JSON.stringify(params));
+
+          setTimeout(() => {
+            window.close();
+          }, 200);
+
+
+	  }});
+
+      };
+    </script>
+
+  </head>
+  <body>
+    <!-- example.public.pem -->
+    <textarea id="pubkey" hidden="hidden" rows="15" cols="65">-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAobvBYsI22pNOZ4ZH8Mbm
+zqBGxN/kS8DV0pC4XU7KgbmvkdZddnEelz//4tTNNaKR4Oc+w/KVZuCStcCBza3d
+QI0D3rOlmzPFbUNgXrQHjzPMlau1bg7PYFEdvYi43MLt/BHN8ct3Ki4l3iKQfyZr
+1zjwLSaUeSiQgGMvyIZnddtbW78SluHOl4TNcAfW98MMa+sLl4kztFzzg33sPvsj
++jLOhhjZZZdu5B9J4th8AfwmdW0/9ZZvPSk6VFWTxJLDk6ub0jUz9oIcKRod1LRO
+P+m2DPyirEy/3FrQOABQWXHP639ljyPuTalh6U8yhGLHwWwhAVJSwwheyMNIjyme
+owIDAQAB
+-----END PUBLIC KEY-----</textarea><br/>
     <div id="background"></div>
     <div id="centercontainer">
-        <p id="username">User1</p>
+      <p id='username'>John Doe</p>
     <input type="password" class="userinput" placeholder="Password" id="password">
-        logout
-        </span></button> 
-    <img id="userpic" src="https://winaero.com/blog/wp-content/uploads/2018/08/Windows-10-user-icon-big.png" >
-    </div>
-</body>
+    <input type="text" hidden="hidden" class="samaccountname" id="samaccountname" value="demo-example.local\jdoe">
+    <img id="userpic" src="user.png" >
+
+  </body>
 </html>
