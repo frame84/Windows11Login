@@ -2,7 +2,7 @@
 
 A Windows 11 Login Page Made With Pure HTML & CSS
 
-## jsencrypt
+## jsencrypt
 
 ### Key Concepts : Public vs Private Keys
 
